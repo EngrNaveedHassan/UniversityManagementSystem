@@ -1,4 +1,5 @@
 ﻿using DAL.Data;
+using DAL.Interface;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,18 +14,16 @@ namespace DAL.Repositories
             _context = context;
         }
 
-        public async Task<bool> Create(Subject entity)
+        public async Task Create(Subject entity)
         {
             await _context.Subjects.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return true;
         }
 
-        public async Task<bool> Delete(Subject entity)
+        public async Task Delete(Subject entity)
         {
             _context.Subjects.Remove(entity);
             await _context.SaveChangesAsync();
-            return true;
         }
 
         public async Task<Subject?> GetById(string id)
@@ -32,16 +31,15 @@ namespace DAL.Repositories
             return await _context.Subjects.FirstOrDefaultAsync(s => s.SubjectCode == id);
         }
 
-        public async Task<List<Subject>> Read(List<Subject> entities)
+        public async Task<List<Subject>> Read()
         {
             return await _context.Subjects.ToListAsync();
         }
 
-        public async Task<bool> Update(Subject entity)
+        public async void Update(Subject entity)
         {
             _context.Update(entity);
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

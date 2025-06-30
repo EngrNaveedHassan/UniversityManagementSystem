@@ -1,4 +1,5 @@
 ﻿using DAL.Data;
+using DAL.Interface;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,18 +14,16 @@ namespace DAL.Repositories
             _context = context;
         }
 
-        public async Task<bool> Create(Book entity)
+        public async Task Create(Book entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return true;
         }
 
-        public async Task<bool> Delete(Book entity)
+        public async Task Delete(Book entity)
         {
             _context.Books.Remove(entity);
             await _context.SaveChangesAsync();
-            return true;
         }
 
         public async Task<Book?> GetById(string id)
@@ -32,16 +31,15 @@ namespace DAL.Repositories
             return await _context.Books.FirstOrDefaultAsync(b => b.ISBN == id);
         }
 
-        public async Task<List<Book>> Read(List<Book> entities)
+        public async Task<List<Book>> Read()
         {
             return await _context.Books.ToListAsync();
         }
 
-        public async Task<bool> Update(Book entity)
+        public async void Update(Book entity)
         {
             _context.Books.Update(entity);
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

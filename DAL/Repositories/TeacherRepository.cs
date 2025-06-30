@@ -1,6 +1,8 @@
 ﻿using DAL.Data;
+using DAL.Interface;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
@@ -13,18 +15,16 @@ namespace DAL.Repositories
             _context = context;
         }
 
-        public async Task<bool> Create(Teacher entity)
+        public async Task Create(Teacher entity)
         {
-            await _context.Teachers.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return true;
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Delete(Teacher entity)
+        public async Task Delete(Teacher entity)
         {
-            _context.Teachers.Remove(entity);
+            _context.Remove(entity);
             await _context.SaveChangesAsync();
-            return true;
         }
 
         public async Task<Teacher?> GetById(string id)
@@ -32,16 +32,15 @@ namespace DAL.Repositories
             return await _context.Teachers.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public Task<List<Teacher>> Read(List<Teacher> entities)
+        public async Task<List<Teacher>> Read()
         {
-            return _context.Teachers.ToListAsync();
+            return await _context.Teachers.ToListAsync();
         }
 
-        public async Task<bool> Update(Teacher entity)
+        public async void Update(Teacher entity)
         {
             _context.Teachers.Update(entity);
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

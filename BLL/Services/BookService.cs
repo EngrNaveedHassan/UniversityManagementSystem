@@ -1,26 +1,25 @@
 ﻿using BLL.Interface;
-using DAL.Interface;
 using Domain.Entities;
 
 namespace BLL.Services
 {
-    public class StudentService : IService<Student>
+    internal class BookService : IService<Book>
     {
-        private readonly IRepository<Student> _studentRepository;
+        private readonly IService<Book> _bookRepository;
 
-        public StudentService(IRepository<Student> studentRepository)
+        public BookService(IService<Book> bookRepository)
         {
-            _studentRepository = studentRepository;
+            _bookRepository = bookRepository;
         }
 
-        public async Task Create(Student entity)
+        public async Task Create(Book entity)
         {
             try
             {
-                if (entity == null)
+                if (entity == null) 
                     throw new ArgumentNullException(nameof(entity));
 
-                await _studentRepository.Create(entity);
+                await _bookRepository.Create(entity);
             }
             catch (Exception exp)
             {
@@ -29,14 +28,13 @@ namespace BLL.Services
             }
         }
 
-        public async Task Delete(Student entity)
+        public async Task Delete(Book entity)
         {
             try
             {
-                if (entity == null)
+                if(entity == null)
                     throw new ArgumentNullException(nameof(entity));
-
-                await _studentRepository.Delete(entity);
+                await _bookRepository.Delete(entity);
             }
             catch (Exception exp)
             {
@@ -45,18 +43,17 @@ namespace BLL.Services
             }
         }
 
-        public async Task<Student?> GetById(string id)
+        public async Task<Book?> GetById(string id)
         {
             try
             {
-                if (id == null || id == "")
+                if(id == null)
                     throw new ArgumentNullException(nameof(id));
 
-                var student = await _studentRepository.GetById(id);
-
-                if (student == null)
-                    throw new ArgumentException("Not Found.");
-                return student;
+                var book = await _bookRepository.GetById(id);
+                if (book == null)
+                    throw new ArgumentException("Not Found");
+                return book;
             }
             catch (Exception exp)
             {
@@ -65,11 +62,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<List<Student>> Read()
+        public async Task<List<Book>> Read()
         {
             try
             {
-                return await _studentRepository.Read();
+                return await _bookRepository.Read();
             }
             catch (Exception exp)
             {
@@ -78,14 +75,13 @@ namespace BLL.Services
             }
         }
 
-        public void Update(Student entity)
+        public void Update(Book entity)
         {
             try
             {
-                if (entity == null)
+                if(entity == null)
                     throw new ArgumentNullException(nameof(entity));
-
-                _studentRepository.Update(entity);
+                _bookRepository.Update(entity);
             }
             catch (Exception exp)
             {
